@@ -3,7 +3,7 @@ namespace PHPMake\USB\Descriptor;
 use PHPMake\USB\Descriptor;
 use PHPMake\USB\DescriptorField;
 
-class Configuration extends Descriptor {
+class StandardConfiguration extends Descriptor {
 
     protected function _defineDescriptorFields() {
         return array(

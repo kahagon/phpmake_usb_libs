@@ -18,7 +18,7 @@ use PHPMake\USB\DescriptorField;
  * @property-read PHPMake\USB\DescriptorField $iSerialNumber
  * @property-read PHPMake\USB\DescriptorField $bNumConfigurations 
  */
-class Device extends Descriptor {
+class StandardDevice extends Descriptor {
 
 
     protected function _defineDescriptorFields() {
