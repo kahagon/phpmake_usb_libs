@@ -21,7 +21,7 @@ use PHPMake\USB\DescriptorField;
 class Device extends Descriptor {
 
 
-    protected function _initDescriptorFields() {
+    protected function _defineDescriptorFields() {
         return array(
             new DescriptorField('bLength', 1),
             new DescriptorField('bDescriptorType', 1),

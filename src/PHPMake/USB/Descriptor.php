@@ -9,7 +9,7 @@ abstract class Descriptor {
 
     public function __construct($data, $offset=0) {
         $dataLength = strlen($data);
-        $fields = $this->_initDescriptorFields();
+        $fields = $this->_defineDescriptorFields();
         foreach ($fields as $field) {
             $length = $field->getLength();
             if (!$length) {
@@ -27,7 +27,7 @@ abstract class Descriptor {
         $this->_fields = $fields;
     }
 
-    protected abstract function _initDescriptorFields();
+    protected abstract function _defineDescriptorFields();
 
     public static function nameForType($type) {
         return USB::constantNameForValueWithRegex($type, __CLASS__, '/^TYPE_/');
