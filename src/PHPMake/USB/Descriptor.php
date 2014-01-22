@@ -1,11 +1,44 @@
 <?php
 namespace PHPMake\USB;
 use PHPMake\USB;
+use PHPMake\USB\DescriptorField;
+use PHPMake\USB\ShortLengthException;
 
-class Descriptor {
+abstract class Descriptor {
+    private $_fields;
+
+    public function __construct($data, $offset=0) {
+        $dataLength = strlen($data);
+        $fields = $this->_initDescriptorFields();
+        foreach ($fields as $field) {
+            $length = $field->getLength();
+            if (!$length) {
+                $field->setLengthWithReference($fields);
+                $length = $field->getLength();
+            }
+
+            if ($offset+$length>$dataLength) {
+                throw new ShortLengthException();
+            }
+            $field->setRawData(substr($data, $offset, $length));
+            $offset += $length;
+        }
+
+        $this->_fields = $fields;
+    }
+
+    protected abstract function _initDescriptorFields();
 
     public static function nameForType($type) {
         return USB::constantNameForValueWithRegex($type, __CLASS__, '/^TYPE_/');
+    }
+
+    public function __get($name) {
+        foreach ($this->_fields as $field) {
+            if ($name == $field->getName()) {
+                return $field;
+            }
+        }
     }
 
     const TYPE_DEVICE = 0x01;
