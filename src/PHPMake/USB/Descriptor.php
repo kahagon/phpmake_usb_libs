@@ -4,7 +4,7 @@ use PHPMake\USB;
 
 class Descriptor {
 
-    public static function typeForValue($type) {
+    public static function nameForType($type) {
         return USB::constantNameForValueWithRegex($type, __CLASS__, '/^TYPE_/');
     }
 
