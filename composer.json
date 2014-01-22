@@ -1,0 +1,12 @@
+{
+    "name": "phpmake/usb_libs",
+    "require": {
+        "php": ">=5.3.0",
+        "ext-usb": ">=0.0.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "PHPMake\\USB": "src"
+        }
+    }
+}
