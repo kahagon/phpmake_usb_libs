@@ -14,7 +14,7 @@ class NotImplemented extends Descriptor {
     }
 
     public function getDescriptorType() {
-        return Descriptor::TYPE_INTERFACE;
+        return 0;
     }
 
     protected function _defineDescriptorFields() {
