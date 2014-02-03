@@ -30,6 +30,9 @@ class StandardConfiguration extends Descriptor {
                 case Descriptor::TYPE_INTERFACE:
                     $relatedDescriptor = new StandardInterface($deviceHandle, $rawData, $offset);
                     break;
+                case Descriptor::TYPE_ENDPOINT:
+                    $relatedDescriptor = new StandardEndpoint($deviceHandle, $rawData, $offset);
+                    break;
                 default:
                     $relatedDescriptor = new NotImplemented($deviceHandle, $rawData, $offset);
                     break;
