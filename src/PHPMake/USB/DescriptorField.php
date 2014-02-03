@@ -1,8 +1,8 @@
 <?php
 namespace PHPMake\USB;
-use PHPMake\USB\ReferenceNotFoundException;
+use PHPMake\USB\Exception;
 
-class DescriptorField {
+abstract class DescriptorField {
     private $_name;
     private $_length;
     private $_lengthReference;
@@ -35,19 +35,7 @@ class DescriptorField {
         return $this->_rawData;
     }
 
-    public function intValue() {
-        if (null === $this->_intValue) {
-            $ret = 0;
-            for ($i=0; $i<$this->_length; $i++) {
-                $d = substr($this->_rawData, $i, 1);
-                $c = unpack('C', $d);
-                $ret += $c[1] << ($i*8);
-            }
-            $this->_intValue = $ret;
-        }
-
-        return $this->_intValue;
-    }
+    public abstract function getValue();
 
     public function setLengthWithReference(array $descriptorFields) {
         foreach ($descriptorFields as $field) {
@@ -57,6 +45,6 @@ class DescriptorField {
             }
         }
 
-        throw new ReferenceNotFoundException();
+        throw new Exception\ReferenceNotFound();
     }
 }

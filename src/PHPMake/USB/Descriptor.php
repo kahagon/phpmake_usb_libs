@@ -2,7 +2,7 @@
 namespace PHPMake\USB;
 use PHPMake\USB;
 use PHPMake\USB\DescriptorField;
-use PHPMake\USB\ShortLengthException;
+use PHPMake\USB\Exception;
 
 abstract class Descriptor {
     private $_fields;
@@ -18,7 +18,7 @@ abstract class Descriptor {
             }
 
             if ($offset+$length>$dataLength) {
-                throw new ShortLengthException();
+                throw new Exception\ShortLength();
             }
             $field->setRawData(substr($data, $offset, $length));
             $offset += $length;
@@ -34,11 +34,16 @@ abstract class Descriptor {
     }
 
     public function __get($name) {
+        return $this->getFieldByName($name)->getValue();
+    }
+
+    public function getFieldByName($name) {
         foreach ($this->_fields as $field) {
             if ($name == $field->getName()) {
                 return $field;
             }
         }
+        throw new Exception\FieldDoesNotExist("field '$name' does not exist");
     }
 
     const TYPE_DEVICE = 0x01;

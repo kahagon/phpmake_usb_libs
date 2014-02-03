@@ -7,14 +7,14 @@ class StandardConfiguration extends Descriptor {
 
     protected function _defineDescriptorFields() {
         return array(
-            new DescriptorField('bLength', 1),
-            new DescriptorField('bDescriptorType', 1),
-            new DescriptorField('wTotalLength', 2),
-            new DescriptorField('bNumInterfaces', 1),
-            new DescriptorField('bConfigurationValue', 1),
-            new DescriptorField('iConfiguration', 1),
-            new DescriptorField('bmAttributes', 1),
-            new DescriptorField('bMaxPower', 1),
+            new DescriptorField\Integer('bLength', 1),
+            new DescriptorField\Integer('bDescriptorType', 1),
+            new DescriptorField\Integer('wTotalLength', 2),
+            new DescriptorField\Integer('bNumInterfaces', 1),
+            new DescriptorField\Integer('bConfigurationValue', 1),
+            new DescriptorField\Integer('iConfiguration', 1),
+            new DescriptorField\Integer('bmAttributes', 1),
+            new DescriptorField\Integer('bMaxPower', 1),
         );
     }
 
