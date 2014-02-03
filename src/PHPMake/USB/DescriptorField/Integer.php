@@ -6,7 +6,7 @@ class Integer extends DescriptorField{
 
     private $_intValue;
 
-    public function getValue() {
+    public function getValue($deviceHandle) {
         if (null === $this->_intValue) {
             $ret = 0;
             for ($i=0; $i<$this->getLength(); $i++) {

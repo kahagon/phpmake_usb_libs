@@ -7,7 +7,6 @@ abstract class DescriptorField {
     private $_length;
     private $_lengthReference;
     private $_rawData;
-    private $_intValue;
 
     public function __construct($name, $length) {
         $this->_name = $name;
@@ -35,7 +34,7 @@ abstract class DescriptorField {
         return $this->_rawData;
     }
 
-    public abstract function getValue();
+    public abstract function getValue($deviceHandle);
 
     public function setLengthWithReference(array $descriptorFields) {
         foreach ($descriptorFields as $field) {

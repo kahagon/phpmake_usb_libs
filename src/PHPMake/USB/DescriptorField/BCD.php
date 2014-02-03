@@ -6,7 +6,7 @@ class BCD extends DescriptorField{
 
     private $_intValue;
 
-    public function getValue() {
+    public function getValue($deviceHandle) {
         if (null === $this->_intValue) {
             $ret = '';
             for ($i=0; $i<$this->getLength(); $i++) {
@@ -15,7 +15,6 @@ class BCD extends DescriptorField{
                 $c = $_c[1];
                 $u = $c>>4;
                 $l = $c&0x0F;
-printf('$i:%d, $c:%d, $u:%d, $l:%d'.PHP_EOL, $i, $c, $u, $l);
                 $ret = $u . $l . $ret;
             }
             $this->_intValue = (int)ltrim($ret, '0');
