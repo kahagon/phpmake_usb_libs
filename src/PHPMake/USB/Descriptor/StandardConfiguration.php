@@ -14,31 +14,38 @@ class StandardConfiguration extends Descriptor {
         $offset = $this->bLength;
 
         while ($offset<$this->wTotalLength) {
-            $l = substr($rawData, $offset, 1);
-            $l = unpack('C', $l);
-            $length = $l[1];
-            $t = substr($rawData, $offset+1, 1);
-            $t = unpack('C', $t);
-            $type = $t[1];
-            $relatedDescriptor;
-            switch ($type) {
-                case Descriptor::TYPE_INTERFACE:
-                    $relatedDescriptor = new StandardInterface($deviceHandle, $rawData, $offset);
-                    break;
-                case Descriptor::TYPE_ENDPOINT:
-                    $relatedDescriptor = new StandardEndpoint($deviceHandle, $rawData, $offset);
-                    break;
-                case Descriptor::TYPE_INTERFACE_ASSOCIATION:
-                    $relatedDescriptor = new InterfaceAssociation($deviceHandle, $rawData, $offset);
-                    break;
-                default:
-                    $relatedDescriptor = new NotImplemented($deviceHandle, $rawData, $offset);
-                    break;
-            }
+            $type = self::_extractNextDescriptorType($rawData, $offset);
+
+            $relatedDescriptor = self::_createRelatedDescriptor($type, $deviceHandle, $rawData, $offset);
             $length = $relatedDescriptor->bLength;
             $offset += $length;
             $this->_relatedDescriptors[] = $relatedDescriptor;
         }
+    }
+
+    private static function _extractNextDescriptorType($rawData, $offset) {
+        $t = substr($rawData, $offset+1, 1);
+        $t = unpack('C', $t);
+        return $t[1];
+    }
+
+    private static function _createRelatedDescriptor($type, $deviceHandle, $rawData, $offset) {
+        $relatedDescriptor;
+        switch ($type) {
+            case Descriptor::TYPE_INTERFACE:
+                $relatedDescriptor = new StandardInterface($deviceHandle, $rawData, $offset);
+                break;
+            case Descriptor::TYPE_ENDPOINT:
+                $relatedDescriptor = new StandardEndpoint($deviceHandle, $rawData, $offset);
+                break;
+            case Descriptor::TYPE_INTERFACE_ASSOCIATION:
+                $relatedDescriptor = new InterfaceAssociation($deviceHandle, $rawData, $offset);
+                break;
+            default:
+                $relatedDescriptor = new NotImplemented($deviceHandle, $rawData, $offset);
+                break;
+        }
+        return $relatedDescriptor;
     }
 
     public function getRelatedDescriptors() {
