@@ -12,16 +12,11 @@ class StandardConfiguration extends Descriptor {
 
         $rawData = $this->getRawData();
         $offset = $this->bLength;
-        $getType = function() use ($rawData, $offset) {
-            $t = substr($rawData, $offset+1, 1);
-            $t = unpack('C', $t);
-            return $t[1];
-        };
 
-        $l = substr($rawData, $offset, 1);
-        $l = unpack('C', $l);
-        $length = $l[1];
-        for (; $offset+$length<=$this->wTotalLength; $offset+=$length) {
+        while ($offset<$this->wTotalLength) {
+            $l = substr($rawData, $offset, 1);
+            $l = unpack('C', $l);
+            $length = $l[1];
             $t = substr($rawData, $offset+1, 1);
             $t = unpack('C', $t);
             $type = $t[1];
@@ -33,11 +28,15 @@ class StandardConfiguration extends Descriptor {
                 case Descriptor::TYPE_ENDPOINT:
                     $relatedDescriptor = new StandardEndpoint($deviceHandle, $rawData, $offset);
                     break;
+                case Descriptor::TYPE_INTERFACE_ASSOCIATION:
+                    $relatedDescriptor = new InterfaceAssociation($deviceHandle, $rawData, $offset);
+                    break;
                 default:
                     $relatedDescriptor = new NotImplemented($deviceHandle, $rawData, $offset);
                     break;
             }
             $length = $relatedDescriptor->bLength;
+            $offset += $length;
             $this->_relatedDescriptors[] = $relatedDescriptor;
         }
     }
