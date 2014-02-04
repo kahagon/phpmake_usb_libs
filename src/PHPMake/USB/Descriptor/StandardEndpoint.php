@@ -6,12 +6,7 @@ use PHPMake\USB\DescriptorField;
 /**
  *
  */
-class StandardEndpoint extends Descriptor {
-
-    public function __construct($deviceHandle, $data, $offset=0) {
-        $this->_setDeviceHandle($deviceHandle);
-        $this->_parse($data, $offset);
-    }
+class StandardEndpoint extends StandardConfigurationRelated {
 
     public function getDescriptorType() {
         return Descriptor::TYPE_ENDPOINT;
