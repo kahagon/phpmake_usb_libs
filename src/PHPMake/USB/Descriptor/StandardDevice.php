@@ -20,6 +20,10 @@ use PHPMake\USB\DescriptorField;
  */
 class StandardDevice extends Descriptor {
 
+    public function __construct($deviceHandle) {
+        parent::__construct($deviceHandle, 0);
+    }
+
     public function getDescriptorType() {
         return Descriptor::TYPE_DEVICE;
     }
